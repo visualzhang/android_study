@@ -2,12 +2,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    android:gravity="center_horizontal"
+    android:gravity="center_horizontal|center_vertical"
     android:orientation="vertical" >
+    <LinearLayout
+        android:id="@+id/mylogin_container"
+        android:layout_width="400dp"
+        android:layout_height="200dp"
+        android:background="#ff555555"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <fragment
+            android:id="@+id/login_fragment"
+            android:name="com.example.fragmenttest.LoginFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
@@ -18,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
+<!-- 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -55,5 +69,5 @@
             android:gravity="center_horizontal|center_vertical" >
         </FrameLayout>
     </LinearLayout>
-
+ -->
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.fragmenttest;
 
 import java.util.ArrayList;
 
+import android.R.integer;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -11,6 +12,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -33,58 +35,84 @@ public class MainActivity extends Activity {
 	ArrayList<Fragment> fragmentList;
 	Fragment from;
 	Fragment to;
+	LoginFragment loginFragment;
 	static int  curIndex=0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		fm = getFragmentManager();
-		ft = fm.beginTransaction();
-		searchFragment = (SearchFragment) getFragmentManager().findFragmentById(R.id.search_fragment);
-		settingFragment = (SettingFragment) getFragmentManager().findFragmentById(R.id.setting_fragment);
-		settingFramView = findViewById(R.id.mysettingfragment_container);
-		myFramView = findViewById(R.id.myfragment_container);
-		searchFragment2 = new SearchFragment();
-		settingFragment2 = new SettingFragment();
-		fragmentList = new ArrayList<Fragment>();
-		fragmentList.add(searchFragment);
-		fragmentList.add(settingFragment);
-		fragmentList.add(searchFragment2);
-		fragmentList.add(settingFragment2);
+		//ft = fm.beginTransaction();
+		loginFragment = (LoginFragment) getFragmentManager().findFragmentById(R.id.login_fragment);
+		myFramView = findViewById(R.id.mylogin_container);
+		//searchFragment = (SearchFragment) getFragmentManager().findFragmentById(R.id.search_fragment);
+		//settingFragment = (SettingFragment) getFragmentManager().findFragmentById(R.id.setting_fragment);
+		//settingFramView = findViewById(R.id.mysettingfragment_container);
+		//myFramView = findViewById(R.id.myfragment_container);
+		//searchFragment2 = new SearchFragment();
+		//settingFragment2 = new SettingFragment();
+		//fragmentList = new ArrayList<Fragment>();
+		//fragmentList.add(searchFragment);
+		//fragmentList.add(settingFragment);
+		//fragmentList.add(searchFragment2);
+		//fragmentList.add(settingFragment2);
 		/*
-		if (!settingFragment2.isAdded()) {    // ÏÈÅĞ¶ÏÊÇ·ñ±»add¹ı
-            ft.add(R.id.myfragment_container, settingFragment2).commit(); // Òş²Øµ±Ç°µÄfragment£¬addÏÂÒ»¸öµ½ActivityÖĞ
+		if (!settingFragment2.isAdded()) {    // å…ˆåˆ¤æ–­æ˜¯å¦è¢«addè¿‡
+            ft.add(R.id.myfragment_container, settingFragment2).commit(); // éšè—å½“å‰çš„fragmentï¼Œaddä¸‹ä¸€ä¸ªåˆ°Activityä¸­
         } else {
-            ft.show(settingFragment2).commit(); // Òş²Øµ±Ç°µÄfragment£¬ÏÔÊ¾ÏÂÒ»¸ö
+            ft.show(settingFragment2).commit(); // éšè—å½“å‰çš„fragmentï¼Œæ˜¾ç¤ºä¸‹ä¸€ä¸ª
         }
         */
 	}
-
-	public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
-		Log.v(LOGTAG,"onKeyDown keyevent:"+event);
-		return false;
+	int fragmentOnKeyDown(int keyCode, KeyEvent event){
+		if(myFramView.getVisibility() == View.VISIBLE){
+			return loginFragment.onKeyDown(keyCode, event);
+		}
+		return 0;
 	}
-	
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		Log.v(LOGTAG,"onKeyDown keyevent:"+event);
+		int ret = fragmentOnKeyDown(keyCode, event);
+		if(ret == 1)
+			return true;
+		if(ret == 2)
+			return false;
+		
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_DPAD_LEFT:
+			Toast.makeText(this, "KEYCODE_DPAD_LEFT", Toast.LENGTH_SHORT).show();
+			break;
+		case KeyEvent.KEYCODE_DPAD_RIGHT:
+			Toast.makeText(this, "KEYCODE_DPAD_RIGHT", Toast.LENGTH_SHORT).show();
+			break;
+
+		default:
+			break;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+	/*
 	 public void switchContent(Fragment from, Fragment to) {
 	        if (mContent != to) {
 	        	Log.v(LOGTAG, "switchContent");
 	            mContent = to;
 	            FragmentTransaction transaction = fm.beginTransaction().setCustomAnimations(
 	            		android.R.animator.fade_in, android.R.animator.fade_out);
-	            if (!to.isAdded()) {    // ÏÈÅĞ¶ÏÊÇ·ñ±»add¹ı
-	                transaction.hide(from).add(R.id.myfragment_container, to).commit(); // Òş²Øµ±Ç°µÄfragment£¬addÏÂÒ»¸öµ½ActivityÖĞ
+	            if (!to.isAdded()) {    // å…ˆåˆ¤æ–­æ˜¯å¦è¢«addè¿‡
+	                transaction.hide(from).add(R.id.myfragment_container, to).commit(); // éšè—å½“å‰çš„fragmentï¼Œaddä¸‹ä¸€ä¸ªåˆ°Activityä¸­
 	            } else {
-	                transaction.hide(from).show(to).commit(); // Òş²Øµ±Ç°µÄfragment£¬ÏÔÊ¾ÏÂÒ»¸ö
+	                transaction.hide(from).show(to).commit(); // éšè—å½“å‰çš„fragmentï¼Œæ˜¾ç¤ºä¸‹ä¸€ä¸ª
 	            }
 	        }
 	    }
+	 */
 	public boolean onKeyUp(int keyCode, android.view.KeyEvent event) {
-		Log.v(LOGTAG,"onKeyUp keyevent:"+event);
-		ft = fm.beginTransaction();
-		ft.setCustomAnimations(android.R.animator.fade_in,
-                android.R.animator.fade_out);
-		switch (keyCode) {
-		case KeyEvent.KEYCODE_BACK:
+		//Log.v(LOGTAG,"onKeyUp keyevent:"+event);
+		//ft = fm.beginTransaction();
+		//ft.setCustomAnimations(android.R.animator.fade_in,
+        //        android.R.animator.fade_out);
+		//switch (keyCode) {
+		//case KeyEvent.KEYCODE_BACK:
 			//switchContent(searchFragment2, settingFragment2);
 			//Log.v(LOGTAG, "KeyEvent.KEYCODE_BACK : switchContent");
 			/*
@@ -103,32 +131,33 @@ public class MainActivity extends Activity {
 			} else {
 				settingFramView.setVisibility(View.GONE);
 			}*/
-			return true;
-		case KeyEvent.KEYCODE_MENU:
-			Log.v(LOGTAG, "KeyEvent.KEYCODE_MENU : switchContent");
+			//return false;
+			//break;
+		//case KeyEvent.KEYCODE_MENU:
+		//	Log.v(LOGTAG, "KeyEvent.KEYCODE_MENU : switchContent");
 			/*
-			 * ÈÃ¶à¸öFragment ÇĞ»»Ê±²»ÖØĞÂÊµÀı»¯£¬Õâ¸ö·½·¨±È½ÏºÃ£¬Èç¹û
-			 * Ç°Ì¨Ö»ÓĞÒ»¸öfragment£¬ÄÇÃ´ËüÀíËùµ±È»»á»ñÈ¡µ½focus£¬Èç¹û
-			 * ÎÒÃÇ×Ô¼º¿ØÖÆ²»ºÃ¾Í»á³öÏÖfocusµôµ½ÆäËûµÄ¿Ø¼şÉÏ£¬ËäÈ»Õâ¸ö¿Ø¼ş
-			 * ÎÒÃÇ¿´²»µ½£¬ÆäÊµÊÇ±»ÉÏÒ»¸ö¸²¸ÇÁË£¡£¡Õâ¸öºÜÂé·³¡£
+			 * è®©å¤šä¸ªFragment åˆ‡æ¢æ—¶ä¸é‡æ–°å®ä¾‹åŒ–ï¼Œè¿™ä¸ªæ–¹æ³•æ¯”è¾ƒå¥½ï¼Œå¦‚æœ
+			 * å‰å°åªæœ‰ä¸€ä¸ªfragmentï¼Œé‚£ä¹ˆå®ƒç†æ‰€å½“ç„¶ä¼šè·å–åˆ°focusï¼Œå¦‚æœ
+			 * æˆ‘ä»¬è‡ªå·±æ§åˆ¶ä¸å¥½å°±ä¼šå‡ºç°focusæ‰åˆ°å…¶ä»–çš„æ§ä»¶ä¸Šï¼Œè™½ç„¶è¿™ä¸ªæ§ä»¶
+			 * æˆ‘ä»¬çœ‹ä¸åˆ°ï¼Œå…¶å®æ˜¯è¢«ä¸Šä¸€ä¸ªè¦†ç›–äº†ï¼ï¼è¿™ä¸ªå¾ˆéº»çƒ¦ã€‚
 			 */
-			if(curIndex == 0 || curIndex == 1 || curIndex == 2){
-				from = fragmentList.get(curIndex);
-				to = fragmentList.get(curIndex+1);
-				curIndex++;
-			} else if(curIndex == 3){
-				from = fragmentList.get(curIndex);
-				to = fragmentList.get(0);
-				curIndex = 0;
-			}
-			switchContent(from, to);
+			//if(curIndex == 0 || curIndex == 1 || curIndex == 2){
+			//	from = fragmentList.get(curIndex);
+			//	to = fragmentList.get(curIndex+1);
+			//	curIndex++;
+			//} else if(curIndex == 3){
+			//	from = fragmentList.get(curIndex);
+			//	to = fragmentList.get(0);
+			//	curIndex = 0;
+			//}
+			//switchContent(from, to);
 			/*
-			 * ÕâÀïÊÇÍ¨¹ıÊ¹ÓÃftÀ´ÏÔÊ¾ºÍÒş²Øfragment£¬ÏÔÊ¾³öÀ´
-			 * Ò²ÊÇ»ñÈ¡²»µ½focus£¬¹Û²ì·¢ÏÖ£¬foucsÓÉÏµÍ³À´¿ØÖÆ
-			 * ÏµÍ³³õÊ¼»¯ÍæÒ»ºó£¬focusÔÚ×îºóÏÔÊ¾ÇÒÒªÇófocusµÄ¿Ø¼ş
-			 * Èç¹ûÉÏÒ»¸öÓĞfocusµÄ¿Ø¼şÒş²ØÁË£¬ÏµÍ³»áÇĞ»»µ½Ö®Ç°Ò»¸ö
-			 * »¹ÔÚÏÔÊ¾µÄ¿Ø¼ş£¬Èç¹û¶¼Ã»ÓĞ£¬Ó¦¸Ã¾Í»¹¸ø¸¸´°¿ÚÁË£¬µ±
-			 * ÓÖÓĞ×Ó´°¿ÚÏÔÊ¾µÄÊ±ºò£¬foucs»á¸ø×Ó´°¿Ú
+			 * è¿™é‡Œæ˜¯é€šè¿‡ä½¿ç”¨ftæ¥æ˜¾ç¤ºå’Œéšè—fragmentï¼Œæ˜¾ç¤ºå‡ºæ¥
+			 * ä¹Ÿæ˜¯è·å–ä¸åˆ°focusï¼Œè§‚å¯Ÿå‘ç°ï¼Œfoucsç”±ç³»ç»Ÿæ¥æ§åˆ¶
+			 * ç³»ç»Ÿåˆå§‹åŒ–ç©ä¸€åï¼Œfocusåœ¨æœ€åæ˜¾ç¤ºä¸”è¦æ±‚focusçš„æ§ä»¶
+			 * å¦‚æœä¸Šä¸€ä¸ªæœ‰focusçš„æ§ä»¶éšè—äº†ï¼Œç³»ç»Ÿä¼šåˆ‡æ¢åˆ°ä¹‹å‰ä¸€ä¸ª
+			 * è¿˜åœ¨æ˜¾ç¤ºçš„æ§ä»¶ï¼Œå¦‚æœéƒ½æ²¡æœ‰ï¼Œåº”è¯¥å°±è¿˜ç»™çˆ¶çª—å£äº†ï¼Œå½“
+			 * åˆæœ‰å­çª—å£æ˜¾ç¤ºçš„æ—¶å€™ï¼Œfoucsä¼šç»™å­çª—å£
 			 */
 			/*
 			if(searchFragment.isHidden()){
@@ -142,9 +171,9 @@ public class MainActivity extends Activity {
 			}
 			*/
 			/*
-			 * ÕâÀïµÄmyFramViewÊÇ¶¯Ì¬¼ÓÔØfragmentµÄ£¬ÏÔÊ¾Òş²ØÊÇÍ¨¹ı
-			 * ÉèÖÃFramLayoutµÄÊôĞÔÀ´µÄ£¬ÏÔÊ¾fragmentºófragment
-			 * ±¾ÉíÎŞ·¨»ñÈ¡µ½focus
+			 * è¿™é‡Œçš„myFramViewæ˜¯åŠ¨æ€åŠ è½½fragmentçš„ï¼Œæ˜¾ç¤ºéšè—æ˜¯é€šè¿‡
+			 * è®¾ç½®FramLayoutçš„å±æ€§æ¥çš„ï¼Œæ˜¾ç¤ºfragmentåfragment
+			 * æœ¬èº«æ— æ³•è·å–åˆ°focus
 			 */
 			/*
 			if(myFramView.getVisibility() == View.GONE){
@@ -153,19 +182,10 @@ public class MainActivity extends Activity {
 				myFramView.setVisibility(View.GONE);
 			}
 			*/
-			return true;
-		default:
-			break;
-		}
-		return false;
+			//return true;
+		//default:
+		//	break;
+		//}
+		return super.onKeyUp(keyCode, event);
 	}
-
-	Handler mHideHandler = new Handler();
-	Runnable mHideRunnable = new Runnable() {
-		@Override
-		public void run() {
-
-		}
-	};
-
 }
