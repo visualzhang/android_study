@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <ImageView
+      android:id="@+id/imageItem"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_centerHorizontal="true"
+      android:layout_gravity="center_vertical|center_horizontal"
+      android:layout_margin="10dp"
+      android:adjustViewBounds="true"
+      android:minHeight="120dip"
+      android:minWidth="140dip"
+      android:scaleType="centerCrop" >
+   
+  </ImageView>  
+         
+</LinearLayout>
