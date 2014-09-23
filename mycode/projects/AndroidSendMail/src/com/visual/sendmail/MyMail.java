@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import javax.activation.CommandMap;
 import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.activation.MailcapCommandMap;
 import javax.mail.Address;
@@ -73,7 +74,7 @@ public class MyMail
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.socketFactory.fallback", "false");
-        props.setProperty("mail.smtp.quitwait", "false");
+//        props.setProperty("mail.smtp.quitwait", "false");
         // 返回授权Base64编码
         PopupAuthenticator auth = new PopupAuthenticator(user, password);
         // 获取会话对象
@@ -84,8 +85,8 @@ public class MyMail
         MimeMessage message = new MimeMessage(session);
         try
         {
-            Address addressFrom = new InternetAddress(sender, "test");
-            Address addressTo = new InternetAddress(recepits, "hello");
+            Address addressFrom = new InternetAddress(sender);
+            Address addressTo = new InternetAddress(recepits);
             /* 邮件头 */
             message.setSubject(subject);         // 邮件主题
             message.setSentDate(new Date());     // 发送日期
@@ -107,7 +108,7 @@ public class MyMail
                     if(file.exists())
                     {
                         MimeBodyPart attachPart = new MimeBodyPart();
-                        FileDataSource source = new FileDataSource(filePath);
+                        DataSource source = new FileDataSource(filePath);
                         attachPart.setDataHandler(new DataHandler(source));
                         attachPart.setFileName(file.getName());
                         multipart.addBodyPart(attachPart);
@@ -118,10 +119,10 @@ public class MyMail
             // 保存邮件内容
             message.setContent(multipart);
 
-            // 获取SMTP协议客户端对象，连接到指定SMPT服务器
-            Transport transport = session.getTransport("smtp");
-            transport.connect(server, port, user, password);
-            System.out.println("My Mail : connet it success!!!!");
+            // 获取SMTP协议客户端对象，连接到指定SMPT服务器——这里没有必要再次连接了
+//            Transport transport = session.getTransport("smtp");
+//            transport.connect(server, port, user, password);
+//            System.out.println("My Mail : connet it success!!!!");
 
             // 发送邮件到SMTP服务器
             Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
@@ -129,7 +130,7 @@ public class MyMail
             System.out.println("My Mail : send it success!!!!");
 
             // 关闭连接
-            transport.close();
+//            transport.close();
             return true;
         }
         catch (Exception e)
@@ -166,7 +167,7 @@ public class MyMail
             transport.connect(server, user, password);    //建立与服务器连接
             msg.setSentDate(new Date());
             InternetAddress fromAddress = null;
-            fromAddress = new InternetAddress(sender,"MyMail.sendMail");
+            fromAddress = new InternetAddress(sender,"iCast2");
             msg.setFrom(fromAddress);
             InternetAddress[] toAddress = new InternetAddress[1];
             toAddress[0] = new InternetAddress(recepits,"icast.smit");
@@ -176,14 +177,21 @@ public class MyMail
             BodyPart textBodyPart = new MimeBodyPart();  //设置正文对象
             textBodyPart.setText(content);                  //设置正文
             multi.addBodyPart(textBodyPart);             //添加正文到邮件
-            for (String path : attachments)
+            if(attachments != null && attachments.size() > 0)
             {
-                FileDataSource fds = new FileDataSource(path);   //获取磁盘文件
-                BodyPart fileBodyPart = new MimeBodyPart();                       //创建BodyPart
-                fileBodyPart.setDataHandler(new DataHandler(fds));           //将文件信息封装至BodyPart对象
-                String fileNameNew = MimeUtility.encodeText(fds.getName(), "utf-8", null);      //设置文件名称显示编码，解决乱码问题
-                fileBodyPart.setFileName(fileNameNew);  //设置邮件中显示的附件文件名
-                multi.addBodyPart(fileBodyPart);        //将附件添加到邮件中
+                for (String path : attachments)
+                {
+                    File file = new File(path);
+                    if(file.exists())
+                    {
+                        FileDataSource fds = new FileDataSource(path);   //获取磁盘文件
+                        BodyPart fileBodyPart = new MimeBodyPart();                       //创建BodyPart
+                        fileBodyPart.setDataHandler(new DataHandler(fds));           //将文件信息封装至BodyPart对象
+                        String fileNameNew = MimeUtility.encodeText(fds.getName(), "utf-8", null);      //设置文件名称显示编码，解决乱码问题
+                        fileBodyPart.setFileName(fileNameNew);  //设置邮件中显示的附件文件名
+                        multi.addBodyPart(fileBodyPart);        //将附件添加到邮件中
+                    }
+                }
             }
             msg.setContent(multi);                      //将整个邮件添加到message中
             msg.saveChanges();
