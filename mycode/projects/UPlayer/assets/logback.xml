@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<configuration>
+    <property name="LOG_DIR" value="/data/data/com.taiji.uplayer/files" />
+    <!-- Create a logcat appender -->
+    <appender name="logcat" class="ch.qos.logback.classic.android.LogcatAppender">
+        <encoder>
+            <pattern>%msg</pattern>
+        </encoder>
+    </appender>
+    <!-- Create a file appender for TRACE-level messages -->
+    <appender name="TraceLog" class="ch.qos.logback.core.FileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${LOG_DIR}/trace.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="email_gmail" class="ch.qos.logback.classic.net.SMTPAppender">
+        <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+		  <marker>NOTIFY_ADMIN</marker>
+		</evaluator>
+		<cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+<!-- 		  send 10 log entries per email -->
+		  <bufferSize>1000</bufferSize>
+		</cyclicBufferTracker>
+        <SMTPHost>smtp.gmail.com</SMTPHost>
+		<SMTPPort>465</SMTPPort>
+		<SSL>true</SSL>
+		<Username>icast.smit@gmail.com</Username>
+		<Password>icast2014</Password>
+		<To>lzhang@smit.com.cn</To>
+		<!-- additional destinations are possible -->
+		<From>icast.smit@gmail.com</From>
+        <Subject>TESTING: %logger{50} - %m</Subject>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%date %-5level %logger - %message%n</Pattern>
+        </layout>
+    </appender>
+    
+    <appender name="email_163" class="ch.qos.logback.classic.net.SMTPAppender">
+        <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+		  <marker>NOTIFY_ADMIN</marker>
+		</evaluator>
+		<cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+<!-- 		  send 10 log entries per email -->
+		  <bufferSize>30</bufferSize>
+		</cyclicBufferTracker>
+<!-- <bufferSize>100</bufferSize> -->
+        <SMTPHost>smtp.163.com</SMTPHost>
+		<SMTPPort>465</SMTPPort>
+		<SSL>true</SSL>
+		<Username>icast_support@163.com</Username>
+		<Password>icast2015</Password>
+		<To>lzhang@smit.com.cn</To>
+<!-- 		<To>visual20130522@163.com</To> -->
+		<!-- additional destinations are possible -->
+		<From>icast_support@163.com</From>
+        <subject>%date{yyyyMMdd'T'HH:mm:ss.SSS}; %-5level; %msg</subject>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%date %-5level %logger - %message%n</Pattern>
+        </layout>
+<!--     	<layout class="ch.qos.logback.classic.html.HTMLLayout" /> -->
+    </appender>
+    <appender name="email_qq" class="ch.qos.logback.classic.net.SMTPAppender">
+        <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+		  <marker>NOTIFY_ADMIN</marker>
+		</evaluator>
+		<cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+<!-- 		  send 10 log entries per email -->
+		  <bufferSize>30</bufferSize>
+		</cyclicBufferTracker>
+        <SMTPHost>smtp.qq.com</SMTPHost>
+		<SMTPPort>465</SMTPPort>
+		<SSL>true</SSL>
+		<Username>visualzhang@qq.com</Username>
+		<Password>ddd</Password>
+		<To>lzhang@smit.com.cn</To>
+		<From>visualzhang@qq.com</From>
+        <subject>%date{yyyyMMdd'T'HH:mm:ss.SSS}; %-5level; %msg</subject>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%date %-5level %logger - %message%n</Pattern>
+        </layout>
+    </appender>
+    <appender name="email_smit" class="ch.qos.logback.classic.net.SMTPAppender">
+        <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+		  <marker>NOTIFY_ADMIN</marker>
+		</evaluator>
+		<cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+<!-- 		  send 10 log entries per email -->
+		  <bufferSize>1000</bufferSize>
+		</cyclicBufferTracker>
+        <SMTPHost>mail.smit.com.cn</SMTPHost>
+		<SMTPPort>25</SMTPPort>
+		<SSL>false</SSL>
+		<Username>icast_support@smit.com.cn</Username>
+		<Password>icast2014</Password>
+		<To>icast_support@smit.com.cn</To>
+		<From>icast_support@smit.com.cn</From>
+        <subject>%date{yyyyMMdd'T'HH:mm:ss.SSS}; %-5level; %msg</subject>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%date %-5level %logger - %message%n</Pattern>
+        </layout>
+    </appender>
+    <!-- Create a file appender for DEBUG-level messages -->
+    <appender name="DebugLog" class="ch.qos.logback.core.FileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${LOG_DIR}/debug.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- Write TRACE messages from class A to its own log -->
+<!--     <logger name="com.taiji.uplayer.MainActivity" level="TRACE"> -->
+<!--         <appender-ref ref="email_gmail" /> -->
+<!--         <appender-ref ref="email_163" /> -->
+<!--         <appender-ref ref="logcat" /> -->
+<!--     </logger> -->
+    <!-- Write DEBUG messages from class B to its own log -->
+<!--     <logger name="com.taiji.uplayer.TestProvider" level="TRACE"> -->
+<!--         <appender-ref ref="DebugLog" /> -->
+<!--     </logger> -->
+    <!-- Write INFO (and higher-level) messages to logcat -->
+ <root level="TRACE">
+    <appender-ref ref="email_smit" />
+    <appender-ref ref="email_gmail" />
+<!--     <appender-ref ref="email_163" /> -->
+<!--     <appender-ref ref="email_qq" /> -->
+    <appender-ref ref="logcat" />
+  </root>
+</configuration>
