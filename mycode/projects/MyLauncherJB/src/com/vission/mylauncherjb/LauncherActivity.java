@@ -22,7 +22,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 //import android.os.SystemProperties;
 
-public class Launcher extends Activity  implements
+public class LauncherActivity extends Activity  implements
 										GridView.OnItemClickListener,
 										GridView.OnItemSelectedListener, OnFocusChangeListener {
 	GridView mainGridView;
@@ -69,7 +69,7 @@ public class Launcher extends Activity  implements
             if (msg.what == 1) {
     			//timerTask.cancel();
     			Intent savescreen = new Intent();
-    			savescreen.setClass(Launcher.this, ScreenSave.class);
+    			savescreen.setClass(LauncherActivity.this, ScreenSave.class);
     			startActivity(savescreen);
                 // 结束Timer计时器
             } 
@@ -113,7 +113,6 @@ public class Launcher extends Activity  implements
 	@Override
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int pos,
 			long arg3) {
-		// TODO Auto-generated method stub
 		menuImageAdapter.notifyDataSetChanged(pos);
 		stopScreenSaveTimer();
 		startScreenSaveTimer();
@@ -201,18 +200,15 @@ public class Launcher extends Activity  implements
 				startActivity(intent);
 			}
 			catch (ActivityNotFoundException  e) {
-				// TODO: handle exception
 				Toast.makeText(getApplicationContext(), name+" 没有安装!", Toast.LENGTH_LONG).show();
 			}
 			catch (Exception e) {
-				// TODO: handle exception
 				Toast.makeText(getApplicationContext(), name+" 没有安装!", Toast.LENGTH_LONG).show();
 			}
 		}
 	}
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-		// TODO Auto-generated method stub
 		menuImageAdapter.notifyDataSetChanged(pos);
 		Intent intent;
 		ComponentName componentName;
@@ -228,23 +224,36 @@ public class Launcher extends Activity  implements
 			startActivity(intent);
 		break;
 		case MEDIA_APP:
-			intent = new Intent();
-			intent.setClass(Launcher.this, MediaItems.class);
-			startActivity(intent);
+//			intent = new Intent();
+//			intent.setClass(LauncherActivity.this, MediaItemsActivity.class);
+//			startActivity(intent);
+			intent = new Intent(); 
+          componentName = new ComponentName("com.tencent.qqmusicpad",
+                  "com.tencent.qqmusicpad.MainActivity"); 
+          intent.setComponent(componentName); 
+          myStartActivity(intent,"我的音乐");
 		break;
 		case LIVE_APP:
 			intent = new Intent(); 
-			componentName = new ComponentName("com.moons.onlinetv",
-					"com.moons.onlinetv.OnlineTV"); 
-			intent.setComponent(componentName); 
-			myStartActivity(intent,"电视大师");
+//			componentName = new ComponentName("com.moons.onlinetv",
+//					"com.moons.onlinetv.OnlineTV"); 
+//			intent.setComponent(componentName); 
+//			myStartActivity(intent,"电视大师");
+			componentName = new ComponentName("net.myvst.v2",
+                    "com.vst.itv52.v1.LancherActivity"); 
+            intent.setComponent(componentName); 
+            myStartActivity(intent,"网络电视");
 		break;
 		case GUARD_APP:
-			intent = new Intent(); 
-			componentName = new ComponentName("com.qihoo360.mobilesafe_tv",
-					"com.qihoo360.mobilesafe.ui.index.AppEnterActivity"); 
-			intent.setComponent(componentName); 
-			myStartActivity(intent,"360电视卫士");
+			intent = new Intent();
+//			componentName = new ComponentName("com.qihoo360.mobilesafe_tv",
+//					"com.qihoo360.mobilesafe.ui.index.AppEnterActivity"); 
+//			intent.setComponent(componentName); 
+//			myStartActivity(intent,"360电视卫士");
+			componentName = new ComponentName("com.smit.livevideo",
+                    "com.smit.livevideo.activity.LauncherActivity"); 
+            intent.setComponent(componentName); 
+            myStartActivity(intent,"融合电视");
 		break;
 		case SETTINGS_APP:
 			intent = new Intent(); 
@@ -261,7 +270,6 @@ public class Launcher extends Activity  implements
 	}
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		stopScreenSaveTimer();
 	}

@@ -22,7 +22,7 @@ import android.widget.GridView;
 //import android.os.SystemProperties;
 import android.widget.Toast;
 
-public class MediaItems extends Activity implements OnItemClickListener, OnItemSelectedListener {
+public class MediaItemsActivity extends Activity implements OnItemClickListener, OnItemSelectedListener {
 	GridView mediaGridView;
 	ImageAdapter mediaAdapter;
     //下面的图标是进入音视频后显示的，有QQMusic MoreTV DouBanDianTai
@@ -59,7 +59,7 @@ public class MediaItems extends Activity implements OnItemClickListener, OnItemS
             if (msg.what == 1) {
     			//timerTask.cancel();
     			Intent savescreen = new Intent();
-    			savescreen.setClass(MediaItems.this, ScreenSave.class);
+    			savescreen.setClass(MediaItemsActivity.this, ScreenSave.class);
     			startActivity(savescreen);
                 // 结束Timer计时器
             } 
@@ -77,11 +77,9 @@ public class MediaItems extends Activity implements OnItemClickListener, OnItemS
 				startActivity(intent);
 			}
 			catch (ActivityNotFoundException  e) {
-				// TODO: handle exception
 				Toast.makeText(getApplicationContext(), name+" 没有安装!", Toast.LENGTH_LONG).show();
 			}
 			catch (Exception e) {
-				// TODO: handle exception
 				Toast.makeText(getApplicationContext(), name+" 没有安装!", Toast.LENGTH_LONG).show();
 			}
 		}
