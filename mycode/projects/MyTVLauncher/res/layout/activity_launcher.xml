@@ -16,7 +16,13 @@
         android:layout_centerVertical="true"
         android:listSelector="@drawable/test_shape"
         android:numColumns="5" >
-
     </GridView>
+
+    <TextView
+        android:id="@+id/tv_ip_mac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

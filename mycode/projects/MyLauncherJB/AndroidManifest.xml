@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
         <activity
-            android:name="com.vission.mylauncherjb.Launcher"
+            android:name="com.vission.mylauncherjb.LauncherActivity"
             android:launchMode="singleTask"
             android:label="@string/app_name" >
             <intent-filter>

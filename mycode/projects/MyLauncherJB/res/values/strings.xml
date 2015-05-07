@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MyLauncherJB</string>
+    <string name="app_name">我的电视</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="item_local">本地</string>
-    <string name="item_media">音视频</string>
-    <string name="item_live">直播</string>
-    <string name="item_guard">电视卫士</string>
+    <string name="item_local">更多内容</string>
+    <string name="item_media">我的音乐</string>
+    <string name="item_live">网络电视</string>
+    <string name="item_guard">融合电视</string>
     <string name="item_settings">设置</string>
     <string name="media_moretv">More TV</string>
     <string name="media_qqmusic">QQ 音乐</string>
