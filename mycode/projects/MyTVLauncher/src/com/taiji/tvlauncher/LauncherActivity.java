@@ -44,7 +44,7 @@ public class LauncherActivity extends Activity implements GridView.OnItemClickLi
     private Integer[] main_item_text =
     { R.string.item_local, R.string.item_media, R.string.item_live, R.string.item_guard, R.string.item_settings };
     private int main_text_size = 30;
-
+   
     private final int LOCAL_APP = 0;
     private final int MEDIA_APP = 1;
     private final int LIVE_APP = 2;
@@ -285,7 +285,8 @@ public class LauncherActivity extends Activity implements GridView.OnItemClickLi
         stopScreenSaveTimer();
     }
 
-    public boolean onKeyDown(int keyCode, KeyEvent event)
+    
+	public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         switch (keyCode)
         {
@@ -352,4 +353,5 @@ public class LauncherActivity extends Activity implements GridView.OnItemClickLi
         Log.e(TAG, mac);
         return mac;
     }
+
 }
